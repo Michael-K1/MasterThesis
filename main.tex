@@ -1,0 +1,132 @@
+\documentclass[11pt,a4paper,twoside,
+openright]{book}
+
+\usepackage{fullpage}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz-cd}
+\usepackage{chngcntr}
+\usepackage[utf8x]{inputenc}
+\usepackage{enumerate}
+
+\newenvironment{dedication}
+  {
+   \thispagestyle{empty}% no header and footer
+   \vspace*{\stretch{1}}% some space at the top
+   \itshape             % the text is in italics
+   \raggedleft          % flush to the right margin
+  }
+  {\par % end the paragraph
+   \vspace{\stretch{3}} % space at bottom is three times that at the top
+   \clearpage           % finish off the page
+  }
+
+\begin{document}
+
+\begin{titlepage}
+	
+	\begin{figure}
+		\centering
+		\includegraphics[width=424pt]{tesiSCIENZE_TECNOLOGIE.jpg}
+		\vspace{0.5 cm}
+	\end{figure}
+	
+
+\begin{center}
+{\LARGE Corso di Laurea in Informatica Magistrale}
+\end{center}
+
+\begin{center}
+\vspace{3 cm}
+{\Large \textsc{Serverless application for multiple datebases governance on AWS} }
+\end{center}
+\par
+  \vspace{3 cm}
+  
+  \begin{flushleft}
+  		 Relatore:\\ Elena PAGANI
+		 
+  		 \noindent Correlatore:\\ Roy S. HALSTEAD
+  \end{flushleft}
+  \vspace{1 cm}
+  \begin{flushright}
+  	Tesi di Laurea di:\\ Michael DANIEL NAGUIB\\ Matricola: 923425
+  \end{flushright}
+    	  
+\vfill
+\begin{center}
+	{\large Anno Accademico 20XX/20XX}
+\end{center}
+\end{titlepage}
+
+
+\begin{dedication}
+test Dedication
+\end{dedication}
+
+\tableofcontents 
+
+\chapter{Introduction}
+Abstract goes here
+
+% 1.  Introduzione
+% Descrizione del problema da risolvere e degli obiettivi da raggiungere.  Se esiste, descrizione della situazione di partenza e degli aspetti negativi per cui si è deciso di intervenire.
+%prendere su teams di roy: leggere '[477029] Allegato 2 - Requisiti'
+% Evitiamo la pubblicità dell'azienda.
+
+
+\chapter{Reference Technologies}
+\section{AGILE Software Development}
+\section{Cloud Infrastructure}
+\subsection{Serverless Architecture}
+\section{Big Data Platform}
+\section{ToolBox}
+% 2.  Tecnologie di riferimento
+% 2.1  Programmazione agile  (standup mattutino, usavamo trello)
+%infrastructure-as-a-code -> cloud formation 
+% 2.2  Infrastrutture cloud  (caratteristiche in particolare di quella considerata)
+% 2.2.1  Architetture serverless
+% 2.3  Piattaforme Big Data  (caratteristiche e requisiti) chiedere?
+% 2.4  Strumenti utilizzati  (es. React, container e microservizi, , nodejs, k8s ...)
+% In questo capitolo non deve scrivere tutto lo scibile riguardo a questi argomenti, ma solo quanto serve per far capire cosa lei ha fatto, dando riferimenti bibliografici per ciò che non è rilevante ai fini del suo lavoro.
+
+
+\chapter{The Platform}
+\section{Requirements}
+\section{Architecture}
+\section{Implementation}
+% 3.  Descrizione della piattaforma
+% 3.1  Requisiti  (es. tipologie di utenti, funzionalità quali aggiunta DB/gestione privilegi/gestione audit...)
+% 3.2  Architettura  (evidenziando quali moduli funzionali ha sviluppato lei, e i loro servizi)
+% 3.3  Aspetti implementativi  (qui non deve commentare tutto il codice, ma solo descrivere gli aspetti più importanti o problematici del lavoro, evidenziando come ha affrontato i problemi o che idee originali ha avuto nello sviluppo.  Poche righe di codice se e solo se proprio le servono per spiegare qualcosa che ha fatto.)
+    %-> knex con i multi db, usato perchè non serve un orm essendo dinamico
+    %-> gestione dei layer con ottimizzazione del caricamento dei layer sulle lambda
+    %-> con cloud formation la risoluzione del nome di apiGatewayDeployment
+    %-> FE parte user che è dinamica (es metadati per la generazione della pagina dinamica, catalogazione dei tipi custom)
+
+
+\chapter{Validation \& Performance}
+% 4.  Validazione e prestazioni (validazione ?)
+% * metodologia seguite (?)
+% * risultati ottenuti rispetto agli obiettivi iniziali
+    %-> ora il cliente può gestire più db in unica platform
+    %-> prima dovevano fare uno sviluppo di una pagina per ogni nuova tabella da gestire
+
+\chapter{Conclusions}
+% 5.  Conclusioni e sviluppi futuri
+% -> si può citare deloitte?
+% -> la platform si può usare ovunque ora 
+% sviluppi futuri 
+    % integrare un processo di approvazione: prima di modificare il dato, la modifica del dato deve rimanere pending fino all'approvazione di un admin/approver
+    % integrazione di elementi di analisi dei dati con visualizzazione grafiche di essi
+
+\appendix
+\chapter{Bibliography}
+% Bibliografia
+
+
+
+
+
+\end{document}
