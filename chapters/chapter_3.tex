@@ -1,0 +1,17 @@
+\chapter{The Platform}
+
+The required platform has to allow a user to insert data on a given table regardless to where said table is stored. 
+It is the platform job to validate and redirect the data to the corresponding database.
+
+
+\section{Requirements}
+\section{Architecture}
+\section{Implementation}
+% 3.  Descrizione della piattaforma
+% 3.1  Requisiti  (es. tipologie di utenti, funzionalità quali aggiunta DB/gestione privilegi/gestione audit...)
+% 3.2  Architettura  (evidenziando quali moduli funzionali ha sviluppato lei, e i loro servizi)
+% 3.3  Aspetti implementativi  (qui non deve commentare tutto il codice, ma solo descrivere gli aspetti più importanti o problematici del lavoro, evidenziando come ha affrontato i problemi o che idee originali ha avuto nello sviluppo.  Poche righe di codice se e solo se proprio le servono per spiegare qualcosa che ha fatto.)
+    %-> knex con i multi db, usato perchè non serve un orm essendo dinamico
+    %-> gestione dei layer con ottimizzazione del caricamento dei layer sulle lambda
+    %-> con cloud formation la risoluzione del nome di apiGatewayDeployment
+    %-> FE parte user che è dinamica (es metadati per la generazione della pagina dinamica, catalogazione dei tipi custom)
