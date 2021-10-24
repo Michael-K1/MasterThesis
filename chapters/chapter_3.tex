@@ -1,15 +1,80 @@
-\chapter{The Platform}
-
-The required platform has to allow a user to insert data on a given table regardless to where said table is stored. 
-It is the platform job to validate and redirect the data to the corresponding database.
-
+\graphicspath{{images/}}
+% 3.  Descrizione della piattaforma
+\chapter{The Data Entry Tool}
+The Data Entry Tool is part of an enterprise customer's digital transformation, consisting of a robust and integrated solution that enables the coexistence and interoperability of on-premise, private and public cloud data resources. The required platform guarantees access to and manipulation of the data from multiple sources offering on-demand requests in near real-time. It will be the tool's job to validate and redirect the data to the corresponding database, as well as grant a user the access only to a subset of tables, according to the given permissions.
 
 \section{Requirements}
-\section{Architecture}
-\section{Implementation}
-% 3.  Descrizione della piattaforma
 % 3.1  Requisiti  (es. tipologie di utenti, funzionalità quali aggiunta DB/gestione privilegi/gestione audit...)
+The requirement for the tool were the following:
+\begin{itemize}
+    \item There has to be a distinction between a normal User and an Administrator of the Data Entry Tool;
+    \item Tables can insist on several databases and the supported engine are PostgreSQL, Oracle, and MSSQL Server;
+    \item Tables can be organized in groups in such a way as to create a 1-level depth hierarchy;
+    \item Each table could be assigned an action in JSON format that would be performed on-demand;
+    \item To each table is assigned a subset of permissions spanning from simple visualization to direct alteration of values;
+    \item Permissions to users are provided by creating associations between groups of users and a table or groups of tables;
+    \item Each Field in a table is associated with a data type which will help its validation;
+    \item Must be arranged the possibility of importing/exporting data from/to Excel files;
+    \item Each operation performed by a User must be tracked.
+\end{itemize}
+
+
+\section{Architecture}
 % 3.2  Architettura  (evidenziando quali moduli funzionali ha sviluppato lei, e i loro servizi)
+The overall architecture is composed by three different elements: the underlying database of the tool, the back-end, and the front-end.
+Firstly, the database allows to map an existing database that belongs to the client; this database could be located anywhere, either in the cloud or on-premise, as long as it is reachable. This is where all users of the tool are registered, with the respective permissions on each table, as well as a set of logs regarding all the operation performed by any of them.   
+Then, the back-end contains all the logic regarding database mapping, the inclusion, authentication, and authorization of the users, the granting and revoking of the permissions, data validation, and the logging of all operations.
+Finally, the front-end is where users and administrators interact with all registered databases: an administrator insert new users, databases, and tables, and creates associations between users and tables with all the required permissions; a user perform operations on the permitted tables without any knowledge to where they are stored or which underlying database is working with, all with an homogeneous view for all the tables.
+
+\subsection{Database}
+The database is an instance of Amazon Aurora PostgreSQL; it was chosen for its distributed, fault-tolerant, and self-healing storage system.
+
+For the versioning of the database schema, we used Flyway, which, as said before, is a tool that performs database migrations. To make use of it in the CI/CD pipeline, I leveraged the available docker image and created a docker compose file which, by automatically obtaining the connection parameters from the environment variables and mapping the SQL versioning files, performs the migrations of the schema. 
+% da dire nei tools: With this tool it was not necessary to interact directly with Aurora. Upon migration, Flyway would check the back-log saved in the database itself comparing the result of previous migrations to the current state of the schema.
+
+\begin{figure}[htp]
+    \centering
+    \includesvg[inkscapelatex=false, width = 15.8cm]{ch_3/ER-Schema}
+    \caption{Entity-Relationship Schema}
+    \label{fig:ER}
+\end{figure}
+
+
+In the ER Schema in Figure \ref{fig:ER} we can see all the elements that map a database in the platform.
+\begin{itemize}
+    \item \textbf{Users}: an entity who represents the users of the Data Entry Tool; they can be differentiated in normal user and administrator, where the administrators are a subset of all the users, which means that they can also utilize the tool as normal users do.
+    
+    \item \textbf{Audit Log}: all the operations carried out by users are registered here; each log contains which table it was performed on, the type of the operation, the status, the data used and possible errors, and when it was performed.
+    
+    \item \textbf{Databases}: this table contains the connection parameters for each database that the tool has to manage.
+    
+    \item \textbf{Tables}: here all the tables of all the registered databases are gathered; each one contains the original name of the schema and table in the respective database. Also, a table may contain the definition of an action that is performed upon request of the user.
+    
+    \item \textbf{Table Fields}: this table contains all the column of a table in a given database. Each field maintain the details of a column, from the constraints like being a primary key column to the data type, from a list of possible values to the maximum number of chars that constitute it. There is also the possibility to set features for each field:
+    \begin{itemize}
+        \item \emph{Primary Key}: marks a field as Primary Key; multiple fields can be Primary Key.
+        \item \emph{Is Required}: the user has to provide a value for this field.
+        \item \emph{Visible}: sets the field as visible by the user that views the table.
+        \item \emph{Editable}: makes the field editable by the user.
+        \item \emph{Sortable}: Allows the user to sort the table according to this field.
+        \item \emph{Filterable}: Allows the user to filter the table according to this field.
+        \item \emph{Fixed Column}: does not allow the column to move during horizontal scroll of the table.
+        \item Note: the distinction between the "\emph{Primary Key}" and the "\emph{Is Required}" features is due to the fact that a primary key may not be required; as an example, consider an auto-increment primary key: in this case the user shouldn't be allowed to manually insert a value since it would cause inconsistency in the database.
+    \end{itemize}
+    
+    \item \textbf{Table Collections}: collections are a way of aggregating tables and displaying them to the user in an orderly fashion. Only tables that are included in a collection will be shown to users.
+    
+    \item \textbf{Tables Import Export}: this table contains all the operation of import and export with the relative status.
+    
+    \item \textbf{User Groups}: Each user group contains the association between users and tables (N-to-M); these associations tell a user which table are visible and what kind of manipulation can perform on them. If a User has access to the same table through distinct groups, the sum of the permissions given to each group would be granted. e.g. if group A gives users the ability to delete data in table X, and in group B the ability to insert new data in X, then the users that are part of both group A and B will be granted the ability to delete and insert data in X.
+    
+\end{itemize}
+
+\subsection{Back-End}
+
+\subsection{Front-End}
+
+\section{Implementation}
 % 3.3  Aspetti implementativi  (qui non deve commentare tutto il codice, ma solo descrivere gli aspetti più importanti o problematici del lavoro, evidenziando come ha affrontato i problemi o che idee originali ha avuto nello sviluppo.  Poche righe di codice se e solo se proprio le servono per spiegare qualcosa che ha fatto.)
     %-> knex con i multi db, usato perchè non serve un orm essendo dinamico
     %-> gestione dei layer con ottimizzazione del caricamento dei layer sulle lambda
