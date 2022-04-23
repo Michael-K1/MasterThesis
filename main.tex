@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper,twoside,
+\documentclass[11pt,a4paper,oneside,
 openright]{book}
 
 \usepackage{fullpage}
@@ -7,76 +7,109 @@ openright]{book}
 \usepackage{amsfonts}
 \usepackage{tikz-cd}
 \usepackage{chngcntr}
-\usepackage[utf8x]{inputenc}
+\usepackage{listings}
+\usepackage{tikz}
+\tikzset{
+  treenode/.style = {shape=rectangle, rounded corners,
+                     draw, align=center,
+                     top color=white, bottom color=blue!20},
+  root/.style     = {treenode, font=\Large, bottom color=red!30},
+  env/.style      = {treenode, font=\ttfamily\normalsize},
+  dummy/.style    = {circle,draw}
+}
+\usetikzlibrary{trees}
+\usepackage{subcaption}
+\usepackage[utf8]{inputenc}
 \usepackage{enumerate}
+\usepackage{float}
+\usepackage{multirow}
+\usepackage{wrapfig}
 \usepackage{svg}
 \svgpath{{./chapters/images/}}
 \usepackage{graphicx}
 \graphicspath{{./chapters/images/}}
+\usepackage[euler]{textgreek}
+\usepackage[binary-units]{siunitx}
+\usepackage[
+    backend=biber,
+    style=ieee,
+    sorting=none
+]{biblatex}
+\usepackage[a-1b]{pdfx}
 
-\newenvironment{dedication}
-  {
-   \thispagestyle{empty}% no header and footer
-   \vspace*{\stretch{1}}% some space at the top
-   \itshape             % the text is in italics
-   \raggedleft          % flush to the right margin
-  }
-  {\par % end the paragraph
-   \vspace{\stretch{3}} % space at bottom is three times that at the top
-   \clearpage           % finish off the page
-  }
+\input{env}
+
 
 \begin{document}
 
 \begin{titlepage}
-	
-	\begin{figure}
-		\centering
-		\includegraphics[width=424pt]{chapters/images/tesiSCIENZE_TECNOLOGIE.jpg}
-		\vspace{0.5 cm}
-	\end{figure}
-	
 
-\begin{center}
-{\LARGE Corso di Laurea in Informatica Magistrale}
-\end{center}
+  \begin{figure}
+    \centering
+    \includegraphics[width=424pt]{chapters/images/tesiSCIENZE_TECNOLOGIE.jpg}
+    \vspace{0.5 cm}
+  \end{figure}
 
-\begin{center}
-\vspace{3 cm}
-{\Large \textsc{Serverless application for multiple datebases governance on AWS} }
-\end{center}
-\par
+
+  \begin{center}
+    {\LARGE Corso di Laurea Magistrale in Informatica }
+  \end{center}
+
+  \begin{center}
+    \vspace{3 cm}
+    {\Large \textsc{Serverless application for multiple databases governance on AWS} }
+  \end{center}
+  \par
   \vspace{3 cm}
-  
+
   \begin{flushleft}
-  		 Relatore:\\ Elena PAGANI
-		 
-  		 \noindent Correlatore:\\ Roy S. HALSTEAD
+    Relatore:\\ Elena PAGANI
+
+    \noindent Correlatore:\\ Roy S. HALSTEAD
   \end{flushleft}
   \vspace{1 cm}
   \begin{flushright}
-  	Tesi di Laurea di:\\ Michael DANIEL NAGUIB\\ Matricola: 923425
+    Tesi di Laurea di:\\ Michael DANIEL NAGUIB\\ Matricola: 923425
   \end{flushright}
-    	  
-\vfill
-\begin{center}
-	{\large Anno Accademico 20XX/20XX}
-\end{center}
+
+  \vfill
+  \begin{center}
+    {\large Anno Accademico 2020/2021}
+  \end{center}
 \end{titlepage}
 
+%  \clearpage\null\newpage
 
 \begin{dedication}
-test Dedication
-\end{dedication}
 
-\tableofcontents 
+  To Francesco,\\
+  a dear friend who has always helped me.\\
+  To my Brother-in-law,\\
+  who made me laugh whenever I was feeling down.\\
+  To my Sister,\\
+  who was always there when I needed her.\\
+  To my Father,\\
+  who has always supported me.\\
+  To my Mother,\\
+  the brightest Sun, \\
+  may she always shine on the path before me.
+  
+\end{dedication}
+% \clearpage\null\newpage
+
+\tableofcontents
+\listoffigures
+\listoftables
+\lstlistoflistings
 
 \input{chapters/chapter_1}
 \input{chapters/chapter_2}
 \input{chapters/chapter_3}
 \input{chapters/chapter_4}
 \input{chapters/chapter_5}
-\input{chapters/biblio}
+
+\printbibliography[heading=bibintoc]
+
 
 
 \end{document}

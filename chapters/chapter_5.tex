@@ -1,7 +1,31 @@
 \chapter{Conclusions}
 % 5.  Conclusioni e sviluppi futuri
 % -> si può citare deloitte?
-% -> la platform si può usare ovunque ora?
+% -> la platform si può usare ovunque ora? si, non è legato strettamente all ambiente del cliente
 % sviluppi futuri 
     % integrare un processo di approvazione: prima di modificare il dato, la modifica del dato deve rimanere pending fino all'approvazione di un admin/approver
     % integrazione di elementi di analisi dei dati con visualizzazione grafiche di essi
+
+As always when you create something new, you learn a lot in the process. Through this experience, I learned a lot about creating Cloud-based applications and how they are used in real-world solutions. The Data Entry Tool developed is able to sustain heavy loads of requests coming from many users and handle the management of the different databases used by the client. If there is a need to add support for other DBMS the process is quite simple, as you would only need to add in the Back-End the client needed to interact with the database, and verify that all data types can be mapped to the types described above. 
+
+Now the client company, through this application, will not have to spend too much time and resources in creating interfaces to manage all the possible tables available in its databases, since, as per the initial goal, they will be created dynamically and will only have to be managed by designated administrators.
+
+Moreover, to conclude, a peculiarity of this application is that it is not strictly linked to the environment of the client company for which it was created; since its operation, as already mentioned, is agnostic with respect to the databases it has to manage, it can be used as a stand-alone application and proposed to other client companies.
+
+
+\section{Future Development}
+The Data Entry Tool could be further developed to add more functionalities. Some example of this would be:
+
+\begin{itemize}
+    \item Adding a system for administrators to approve changes made by end users to tables. This would allow all changes made to sensitive tables to remain in a pending state until they are marked as approved.  
+    \item The integration of data analysis elements, with the ability to create graphs within the application. Since the framework used for Front-End development provides the necessary to create graphs based on the input data, it would make them significantly clearer to understand, rather than having to export them, perhaps in considerable size, to create the graphs elsewhere. Moreover, with the integration of a real-time information stream from the databases, some graphs could be added to the end user's dashboard where they would be able to see the graphs update in real time.
+    \item A system to promote tables between environments: instead of adding a table directly in the production environment, there could be a simulated copy of it in the development environment, structurally identical, where it would be possible to fine-tune the behaviour of the interface. Once ready, the created configuration can be promoted to the original copy. 
+\end{itemize}
+
+
+
+
+
+
+
+% altro sviluppo : promozioni delle configurazioni tra ambienti dev e master
